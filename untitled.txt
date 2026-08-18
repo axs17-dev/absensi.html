@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Absensi Online</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f6fa;
+    color: #222;
+}
+
+/* LOGIN */
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #315c9b, #4e8bd8);
+}
+
+.login-box {
+    width: 380px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.2);
+}
+
+.login-box h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #315c9b;
+}
+
+.login-box p {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 11px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #315c9b;
+}
+
+button {
+    border: none;
+    background: #315c9b;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #244a80;
+}
+
+.login-info {
+    margin-top: 15px;
+    background: #eef5ff;
+    padding: 10px;
+    border-radius: 7px;
+    font-size: 12px;
+}
+
+/* APP */
+#app {
+    display: none;
+}
+
+header {
+    background: #315c9b;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-title {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logout-btn {
+    width: auto;
+    padding: 8px 15px;
+    background: #d9534f;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* NAVIGATION */
+.nav {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.nav button {
+    width: auto;
+    background: #e9eef5;
+    color: #333;
+}
+
+.nav button.active,
+.nav button:hover {
+    background: #315c9b;
+    color: white;
+}
+
+/* PAGE */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.card h2 {
+    color: #315c9b;
+    margin-bottom: 18px;
+}
+
+/* DASHBOARD */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat {
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+}
+
+.stat h3 {
+    font-size: 30px;
+    margin-top: 8px;
+}
+
+.stat.hadir {
+    background: #28a745;
+}
+
+.stat.izin {
+    background: #ffc107;
+    color: #222;
+}
+
+.stat.sakit {
+    background: #17a2b8;
+}
+
+.stat.alpa {
+    background: #dc3545;
+}
+
+/* PHOTO */
+.photo-preview {
+    width: 180px;
+    height: 180px;
+    border: 2px dashed #aaa;
+    border-radius: 10px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #f5f5f5;
+    color: #777;
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* TABLE */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #315c9b;
+    color: white;
+}
+
+.attendance-photo {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.status {
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-Hadir {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-Izin {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-Sakit {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-Alpa {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.delete-btn {
+    background: #dc3545;
+    width: auto;
+    padding: 7px 10px;
+}
+
+.export-btn {
+    width: auto;
+    background: #198754;
+    padding: 10px 15px;
+}
+
+.reset-btn {
+    width: auto;
+    background: #6c757d;
+    padding: 10px 15px;
+}
+
+.filter-area {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 800px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-area {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .login-box {
+        width: 90%;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section id="loginPage">
+
+    <div class="login-box">
+
+        <h1>Absensi Online</h1>
+
+        <p>Sistem Absensi Sekolah</p>
+
+        <div class="form-group">
+            <label>Username</label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Masukkan username">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Masukkan password">
+        </div>
+
+        <div class="form-group">
+
+            <label>Login Sebagai</label>
+
+            <select id="role">
+
+                <option value="murid">
+                    Murid
+                </option>
+
+                <option value="guru">
+                    Guru
+                </option>
+
+                <option value="admin">
+                    Admin
+                </option>
+
+            </select>
+
+        </div>
+
+        <button onclick="login()">
+            Login
+        </button>
+
+        <div class="login-info">
+
+            <b>Akun demo:</b><br>
+
+            Admin: admin / admin123<br>
+
+            Guru: guru / guru123<br>
+
+            Murid: murid / murid123
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= APLIKASI ================= -->
+
+<section id="app">
+
+<header>
+
+    <div class="header-title">
+        📋 Absensi Online
+    </div>
+
+    <div class="user-info">
+
+        <span id="currentUser"></span>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- NAVIGATION -->
+
+    <div class="nav">
+
+        <button
+            id="dashboardNav"
+            class="active"
+            onclick="showPage('dashboardPage', this)">
+
+            Dashboard
+
+        </button>
+
+
+        <!-- HANYA MURID -->
+
+        <button
+            id="attendanceNav"
+            onclick="showPage('attendancePage', this)">
+
+            Presensi
+
+        </button>
+
+
+        <!-- GURU DAN ADMIN -->
+
+        <button
+            id="reportNav"
+            onclick="showPage('reportPage', this)">
+
+            Laporan
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <div
+        id="dashboardPage"
+        class="page active">
+
+        <div class="card">
+
+            <h2>Dashboard</h2>
+
+            <p>
+                Selamat datang di Sistem Absensi Online Sekolah.
+            </p>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat hadir">
+
+                <div>Hadir</div>
+
+                <h3 id="totalHadir">
+                    0
+                </h3>
+
+            </div>
+
+
+            <div class="stat izin">
+
+                <div>Izin</div>
+
+                <h3 id="totalIzin">
+                    0
+                </h3>
+
+            </div>
+
+
+            <div class="stat sakit">
+
+                <div>Sakit</div>
+
+                <h3 id="totalSakit">
+                    0
+                </h3>
+
+            </div>
+
+
+            <div class="stat alpa">
+
+                <div>Alpa</div>
+
+                <h3 id="totalAlpa">
+                    0
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= PRESENSI ================= -->
+
+    <div
+        id="attendancePage"
+        class="page">
+
+        <div class="card">
+
+            <h2>Form Absensi</h2>
+
+
+            <div class="form-group">
+
+                <label>
+                    Nama Lengkap
+                </label>
+
+                <input
+                    type="text"
+                    id="nama"
+                    placeholder="Masukkan nama lengkap">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Kelas
+                </label>
+
+                <select id="kelas">
+
+                    <option value="">
+                        -- Pilih Kelas --
+                    </option>
+
+                    <option>
+                        X TJKT 1
+                    </option>
+
+                    <option>
+                        X TJKT 2
+                    </option>
+
+                    <option>
+                        X TJKT 3
+                    </option>
+
+                    <option>
+                        XI TJKT 1
+                    </option>
+
+                    <option>
+                        XI TJKT 2
+                    </option>
+
+                    <option>
+                        XI TJKT 3
+                    </option>
+
+                    <option>
+                        XII TJKT 1
+                    </option>
+
+                    <option>
+                        XII TJKT 2
+                    </option>
+
+                    <option>
+                        XII TJKT 3
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Status Kehadiran
+                </label>
+
+                <select id="status">
+
+                    <option value="Hadir">
+                        Hadir
+                    </option>
+
+                    <option value="Izin">
+                        Izin
+                    </option>
+
+                    <option value="Sakit">
+                        Sakit
+                    </option>
+
+                    <option value="Alpa">
+                        Alpa
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Foto Kehadiran
+                </label>
+
+                <input
+                    type="file"
+                    id="foto"
+                    accept="image/*"
+                    capture="user"
+                    onchange="previewFoto(event)">
+
+                <small>
+                    Ukuran foto maksimal 20 MB.
+                </small>
+
+
+                <div
+                    class="photo-preview"
+                    id="photoPreview">
+
+                    Foto belum dipilih
+
+                </div>
+
+            </div>
+
+
+            <button onclick="simpanPresensi()">
+
+                ✓ Simpan Absensi
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= LAPORAN ================= -->
+
+    <div
+        id="reportPage"
+        class="page">
+
+        <div class="card">
+
+            <h2>
+                Laporan Kehadiran
+            </h2>
+
+
+            <div class="filter-area">
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Cari nama..."
+                    oninput="tampilkanData()">
+
+
+                <select
+                    id="filterKelas"
+                    onchange="tampilkanData()">
+
+                    <option value="">
+                        Semua Kelas
+                    </option>
+
+                    <option>
+                        X TJKT 1
+                    </option>
+
+                    <option>
+                        X TJKT 2
+                    </option>
+
+                    <option>
+                        X TJKT 3
+                    </option>
+
+                    <option>
+                        XI TJKT 1
+                    </option>
+
+                    <option>
+                        XI TJKT 2
+                    </option>
+
+                    <option>
+                        XI TJKT 3
+                    </option>
+
+                    <option>
+                        XII TJKT 1
+                    </option>
+
+                    <option>
+                        XII TJKT 2
+                    </option>
+
+                    <option>
+                        XII TJKT 3
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="filterStatus"
+                    onchange="tampilkanData()">
+
+                    <option value="">
+                        Semua Status
+                    </option>
+
+                    <option value="Hadir">
+                        Hadir
+                    </option>
+
+                    <option value="Izin">
+                        Izin
+                    </option>
+
+                    <option value="Sakit">
+                        Sakit
+                    </option>
+
+                    <option value="Alpa">
+                        Alpa
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="reset-btn"
+                    onclick="resetFilter()">
+
+                    Reset
+
+                </button>
+
+            </div>
+
+
+            <div style="margin-bottom:15px;">
+
+                <button
+                    class="export-btn"
+                    onclick="exportCSV()">
+
+                    📥 Export CSV
+
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>No</th>
+
+                        <th>Foto</th>
+
+                        <th>Nama</th>
+
+                        <th>Kelas</th>
+
+                        <th>Tanggal</th>
+
+                        <th>Jam</th>
+
+                        <th>Status</th>
+
+                        <th>Aksi</th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="attendanceTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* ==================================================
+   DATA LOGIN
+================================================== */
+
+const accounts = {
+
+    admin: {
+        username: "admin",
+        password: "admin123",
+        role: "admin"
+    },
+
+    guru: {
+        username: "guru",
+        password: "guru123",
+        role: "guru"
+    },
+
+    murid: {
+        username: "murid",
+        password: "murid123",
+        role: "murid"
+    }
+
+};
+
+
+/* ==================================================
+   DATA ABSENSI
+================================================== */
+
+let attendanceData =
+    JSON.parse(
+        localStorage.getItem(
+            "attendanceData"
+        )
+    ) || [];
+
+let fotoBase64 = "";
+
+
+/* ==================================================
+   LOGIN
+================================================== */
+
+function login() {
+
+    const username =
+        document.getElementById(
+            "username"
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
+
+    const role =
+        document.getElementById(
+            "role"
+        ).value;
+
+    const account =
+        accounts[role];
+
+
+    if (
+        username === account.username &&
+        password === account.password
+    ) {
+
+        localStorage.setItem(
+            "loginUser",
+            JSON.stringify(account)
+        );
+
+        bukaAplikasi(account);
+
+    } else {
+
+        alert(
+            "Username, password, atau role salah!"
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+   BUKA APLIKASI
+================================================== */
+
+function bukaAplikasi(account) {
+
+    document.getElementById(
+        "loginPage"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "app"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "currentUser"
+    ).textContent =
+        account.username +
+        " (" +
+        account.role.toUpperCase() +
+        ")";
+
+
+    const attendanceNav =
+        document.getElementById(
+            "attendanceNav"
+        );
+
+    const reportNav =
+        document.getElementById(
+            "reportNav"
+        );
+
+
+    /*
+       FORM ABSENSI HANYA UNTUK MURID
+    */
+
+    if (account.role === "murid") {
+
+        attendanceNav.style.display =
+            "block";
+
+        reportNav.style.display =
+            "none";
+
+    }
+
+    /*
+       GURU DAN ADMIN
+    */
+
+    else {
+
+        attendanceNav.style.display =
+            "none";
+
+        reportNav.style.display =
+            "block";
+
+    }
+
+
+    updateDashboard();
+
+    tampilkanData();
+
+}
+
+
+/* ==================================================
+   CEK LOGIN SAAT REFRESH
+================================================== */
+
+window.onload = function() {
+
+    const savedUser =
+        localStorage.getItem(
+            "loginUser"
+        );
+
+
+    if (savedUser) {
+
+        bukaAplikasi(
+            JSON.parse(savedUser)
+        );
+
+    }
+
+};
+
+
+/* ==================================================
+   LOGOUT
+================================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "loginUser"
+    );
+
+    location.reload();
+
+}
+
+
+/* ==================================================
+   NAVIGASI
+================================================== */
+
+function showPage(pageId, button) {
+
+    document.querySelectorAll(
+        ".page"
+    ).forEach(page => {
+
+        page.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    document.getElementById(
+        pageId
+    ).classList.add(
+        "active"
+    );
+
+
+    document.querySelectorAll(
+        ".nav button"
+    ).forEach(btn => {
+
+        btn.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    button.classList.add(
+        "active"
+    );
+
+}
+
+
+/* ==================================================
+   PREVIEW FOTO
+================================================== */
+
+function previewFoto(event) {
+
+    const file =
+        event.target.files[0];
+
+
+    if (!file) return;
+
+
+    /*
+       MAKSIMAL 20 MB
+    */
+
+    const maxSize =
+        20 * 1024 * 1024;
+
+
+    if (file.size > maxSize) {
+
+        alert(
+            "Ukuran foto maksimal 20 MB!"
+        );
+
+
+        document.getElementById(
+            "foto"
+        ).value = "";
+
+
+        fotoBase64 = "";
+
+
+        document.getElementById(
+            "photoPreview"
+        ).innerHTML =
+            "Foto belum dipilih";
+
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e) {
+
+            fotoBase64 =
+                e.target.result;
+
+
+            document.getElementById(
+                "photoPreview"
+            ).innerHTML =
+
+                `<img
+                    src="${fotoBase64}"
+                    alt="Foto Kehadiran">`;
+
+        };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* ==================================================
+   SIMPAN ABSENSI
+================================================== */
+
+function simpanPresensi() {
+
+    const user =
+        JSON.parse(
+            localStorage.getItem(
+                "loginUser"
+            )
+        );
+
+
+    /*
+       PASTIKAN HANYA MURID
+       YANG BISA MENGISI ABSENSI
+    */
+
+    if (
+        !user ||
+        user.role !== "murid"
+    ) {
+
+        alert(
+            "Hanya murid yang dapat mengisi absensi!"
+        );
+
+        return;
+
+    }
+
+
+  
